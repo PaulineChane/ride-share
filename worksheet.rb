@@ -1,3 +1,4 @@
+require 'terminal-table'
 # Pauline Chane (@PaulineChane on GitHub)
 # Ada Developers Academy Cohort 14
 # ride-share (worksheet.rb)
@@ -46,10 +47,64 @@
 # and "3rd Feb 2016" and "RD0022"
 #
 # ------------- RESPONSE ----------------
-drivers ={"DR0001" => [{"DATE" => "3rd Feb 2016", "COST" => 10,"RIDER_ID" => "RD0003", "RATING" => 3},{"DATE" => "3rd Feb 2016", "COST" => 30, "RIDER_ID" => "RD0015", "RATING" => 4},{"DATE" => "5th Feb 2016", "COST" => 45, "RIDER_ID" => "RD0003", "RATING" => 2}],
-         "DR0002" => [{"DATE" => "3rd Feb 2016", "COST" => 25, "RIDER_ID" => "RD0073", "RATING" => 5},{"DATE" => "4th Feb 2016", "COST" => 15, "RIDER_ID" => "RD0013", "RATING" => 1},{"DATE" => "5th Feb 2016", "COST" => 35, "RIDER_ID" => "RD0066", "RATING" => 3}],
-         "DR0003" => [{"DATE" => "4th Feb 2016", "COST" => 5,"RIDER_ID" => "RD0066", "RATING" => 5},{"DATE" => "5th Feb 2016", "COST" => 50, "RIDER_ID" => "RD0003", "RATING" => 2}],
-         "DR0004" => [{"DATE" => "3rd Feb 2016", "COST" => 5,"RIDER_ID" => "RD0022", "RATING" => 5},{"DATE" => "4th Feb 2016", "COST" => 10, "RIDER_ID" => "RD0022", "RATING" => 4}, {"DATE" => "5th Feb 2016", "COST" => 20, "RIDER_ID" => "RD0073", "RATING" => 5}]}
+drivers ={"DR0001" => [
+                        {"DATE" => "3rd Feb 2016",
+                         "COST" => 10,
+                         "RIDER_ID" => "RD0003",
+                         "RATING" => 3},
+
+                        {"DATE" => "3rd Feb 2016",
+                         "COST" => 30,
+                         "RIDER_ID" => "RD0015",
+                         "RATING" => 4},
+
+                        {"DATE" => "5th Feb 2016",
+                         "COST" => 45,
+                         "RIDER_ID" => "RD0003",
+                         "RATING" => 2}],
+
+         "DR0002" => [
+                      {"DATE" => "3rd Feb 2016",
+                       "COST" => 25,
+                       "RIDER_ID" => "RD0073",
+                       "RATING" => 5},
+
+                      {"DATE" => "4th Feb 2016",
+                       "COST" => 15,
+                       "RIDER_ID" => "RD0013",
+                       "RATING" => 1},
+
+                      {"DATE" => "5th Feb 2016",
+                       "COST" => 35,
+                       "RIDER_ID" => "RD0066",
+                       "RATING" => 3}],
+
+         "DR0003" => [
+                      {"DATE" => "4th Feb 2016",
+                       "COST" => 5,
+                       "RIDER_ID" => "RD0066",
+                       "RATING" => 5},
+
+                      {"DATE" => "5th Feb 2016",
+                       "COST" => 50,
+                       "RIDER_ID" => "RD0003",
+                       "RATING" => 2}],
+
+         "DR0004" => [
+                      {"DATE" => "3rd Feb 2016",
+                       "COST" => 5,
+                       "RIDER_ID" => "RD0022",
+                       "RATING" => 5},
+
+                      {"DATE" => "4th Feb 2016",
+                       "COST" => 10,
+                       "RIDER_ID" => "RD0022",
+                       "RATING" => 4},
+
+                      {"DATE" => "5th Feb 2016",
+                       "COST" => 20,
+                       "RIDER_ID" => "RD0073",
+                       "RATING" => 5}]}
 
 ########################################################
 # Step 4: Total Driver's Earnings and Number of Rides
@@ -80,10 +135,16 @@ puts "\nThe total amount of money each driver has made:"
 total_money = drivers.map{|driver, rides|{driver.to_s => rides.inject(0){|total, ride| total += ride["COST"]}}}.reduce({}, :merge)
 
 # prints results from new total_money hash
+rows = []
+rows << ["DRIVER ID", "TOTAL MONEY"]
+rows << ["------","-----"]
 total_money.each do |driver, totals|
-  puts "DRIVER #{driver}: $#{totals}"
+  rows << ["#{driver}", "$#{totals}"]
 end
 
+table = Terminal::Table.new :rows => rows
+
+puts table
 
 
 # - the average rating for each driver
